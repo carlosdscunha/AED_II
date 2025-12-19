@@ -130,7 +130,7 @@ int main(void) {
         int c = getchar();
 
         switch (c) {
-            case '<':
+            case '<': {
                 LINHA *l = remover(&historico);
                 if (l != NULL) {
                     free(frases.text);
@@ -139,6 +139,7 @@ int main(void) {
                 }
 
                 break;
+            }
             case '@':
                 liberar_pilha(&historico);
                 free(frases.text);
