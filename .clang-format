@@ -1,34 +1,47 @@
 ---
-Language: Cpp                         # Define que é para C e C++
-BasedOnStyle: LLVM                    # Começa com estilo base LLVM (mas muda as regras abaixo)
+Language: Cpp
+BasedOnStyle: LLVM
 
-# --- INDENTAÇÃO ---
-IndentWidth: 4                        # Usa 4 espaços para indentar (o padrão LLVM é 2)
-TabWidth: 4                           # Tamanho do Tab conta como 4 espaços
-ContinuationIndentWidth: 8            # Se a linha quebrar, a continuação indenta 8 espaços
-AccessModifierOffset: -4              # "public:" e "private:" ficam alinhados à esquerda (sem indentação extra)
-IndentCaseLabels: true                # Indenta o "case" dentro do "switch"
-NamespaceIndentation: All             # Indenta código dentro de namespace
+# --- INDENTAÇÃO E TABULAÇÃO ---
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never # Usa espaços para manter o alinhamento em qualquer editor
+ContinuationIndentWidth: 8
+IndentCaseLabels: true
+
+# --- LOOPS E BLOCOS CURTOS (O que você pediu) ---
+AllowShortLoopsOnASingleLine: true
+AllowShortBlocksOnASingleLine: Always
+AllowShortIfStatementsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: All
 
 # --- CHAVES (BRACES) ---
-BreakBeforeBraces: Custom             # Define que vamos personalizar onde as chaves ficam
-BraceWrapping:                        # Regras específicas de quebra de linha para chaves
-  AfterClass: false                   # Chave da classe na MESMA linha: class X {
-  AfterFunction: false                # Chave da função na MESMA linha: void main() {
-  AfterControlStatement: false        # if/for/while na MESMA linha: if (x) {
-  BeforeElse: false                   # else na MESMA linha: } else {
-  # ... (as outras opções 'false' garantem que a chave quase nunca pule de linha)
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterClass: false
+  AfterControlStatement: false # Mantém a chave na mesma linha do if/while
+  AfterFunction: false         # Mantém a chave na mesma linha da função
+  AfterNamespace: false
+  AfterStruct: false
+  AfterUnion: false
+  BeforeCatch: false
+  BeforeElse: false            # Mantém o else na mesma linha da chave: } else {
+  IndentBraces: false
 
-# --- ESPAÇAMENTOS E ALINHAMENTO ---
-ColumnLimit: 140                      # Permite linhas longas (até 120 letras) antes de quebrar
-AlignOperands: true                   # Alinha operandos se quebrar linha em matemática
-SpaceAfterCStyleCast: true            # Coloca espaço depois do cast: (int) variavel
-SpacesInParentheses: false            # Sem espaço dentro de parenteses: (x) e não ( x )
+# --- ESPAÇAMENTOS ---
+SpaceBeforeParens: ControlStatements # Coloca espaço: if (x)
+SpaceBeforeAssignmentOperators: true
+SpaceAfterCStyleCast: true
+SpacesInContainerLiterals: false
+PointerAlignment: Right              # Padrão C: int *ptr;
 
-# --- OUTROS ---
-IncludeCategories:                    # Organiza os #include (bibliotecas do sistema vs locais)
-  - Regex: '^<.*'
+# --- ORGANIZAÇÃO ---
+ColumnLimit: 120
+SortIncludes: true
+IncludeCategories:
+  - Regex: "^<.*"
     Priority: 1
   - Regex: '^".*'
     Priority: 2
-...
+
+# clang-format -i *.c
