@@ -20,10 +20,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef linux
-#define CLEAR "clear"
-#else
+#ifdef _WIN32
 #define CLEAR "cls"
+#else
+#define CLEAR "clear"
 #endif
 
 typedef struct {
@@ -52,7 +52,7 @@ STRING new_string(char *str) {
     size_t len = strlen(str);
     char *new_text = (char *) malloc(len + 1);
     strcpy(new_text, str);
-    return (STRING){new_text, len};
+    return (STRING) {new_text, len};
 }
 
 void str_concat(STRING *s, char *str) {
@@ -67,10 +67,11 @@ void str_concat(STRING *s, char *str) {
 }
 
 void str_set(STRING *s, int c) {
-    char *new = (char *) realloc(s->text, s->len + 1);
+    char *new = (char *) realloc(s->text, s->len + 2);
     if (new == NULL) return;
     s->text = new;
     s->text[s->len] = c;
+    s->text[s->len + 1] = '\0';
     s->len++;
 }
 
@@ -117,10 +118,12 @@ void liberar_pilha(PILHA *p) {
     while (aux) {
         LINHA *exc = aux;
         aux = aux->ant;
+        free(exc->s.text);
         free(exc);
     }
 
     p->topo = NULL;
+    p->qtde = 0;
 }
 
 void limpar_tela() { system(CLEAR); }
