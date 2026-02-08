@@ -57,3 +57,4 @@ dkms.conf
 # pastas
 *output
 .vscode
+.env
